@@ -4,7 +4,8 @@
 
 \subsection{Le perceptron}
 
-Le perceptron est le neurone le plus basique que l'on puisse trouver dans la littérature. Un perceptron est défini par :
+Le perceptron est le neurone le plus basique que l'on puisse trouver dans la
+littérature. Un perceptron est défini par :
 \begin{itemize}
 \item $n$ entrées $x_i$
 \item $1$ sortie $y$
@@ -44,7 +45,8 @@ toujours $1$.
 % \begin{center}
 % \includegraphics[height=8cm]{simpleNeuron/Perceptron.png}
 % \end{center}
-% \caption{Schéma d'un perceptron standard\\Source Wikimedia Commons, sous license Creative Commons 3}
+% \caption{Schéma d'un perceptron standard\\Source Wikimedia Commons, sous
+%license Creative Commons 3}
 % \end{figure}
 
 \subsection{Le réseau}
@@ -78,7 +80,8 @@ que l'on veut soumettre au réseau. Par exemple dans le cadre du MNIST (insert c
 on veut en entrée une image de dimension $28 \times 28$, on place donc $784$
 neurones d'entrées. En pratique, les neurones d'entrée sont des neurones
 fictifs ; ils sont présents pour faciliter la construction du réseau de neurone.
-% En effet, il n'est pas soumis à un apprentissage et sa sortie est la même que son entrée.  <---- Je n'ai pas compris cette phrase, à éclaircir
+% En effet, il n'est pas soumis à un apprentissage et sa sortie est la même que son entrée.
+% !!! Je n'ai pas compris cette phrase, à éclaircir !!!
 Nous ne les considérerons pas dans la théorie qui suit.
 
 \medskip
@@ -172,24 +175,67 @@ limiter le nombre de minima locaux.
 
 \medskip
 
-On veut donc calculer pour tout $w_{ij}$ : $\cfrac{\partial E}{\partial w_{ij}}(w_{ij})$
-
-
+On veut donc calculer pour tout
+$w_{ij}$ : $\cfrac{\partial E}{\partial w_{ij}}(w_{ij})$
 
 \section{L'implémentation}
 
 \subsection{Le neurone}
 
+Le neurone est une classe, il a pour attributs :
+\begin{itemize}
+  \item le nombre de ses entrées (\verb+int+).
+  \item les valeurs de ses entrées (\verb+vector<double>+).
+  \item les poids qu'il leur attribue (\verb+vector<double>+).
+  \item son biais (\verb+int+).
+  \item sa fonction de composition (\verb+compositionFunction+).
+  \item sa fonction d'activation (\verb+activationFunction+).
+\end{itemize}
+
+\medskip
+
+Il dispose des méthodes suivantes :
+\begin{itemize}
+  \item \verb+description()+ : indique l'état du neurone.
+  \item \verb+reset()+ : remet à zero ses entrées et sa sortie.
+  \item les getters et les setters pour les poids, le nombre d'entrées, les
+  fonctions de composition...
+  \item \verb+calculateOutput()+ : calcul la sortie du neurone en fonction
+  de ses entrées.
+  \item \verb+getActivationDerivative+ : calcul de la dérivée de la fonction
+  d'activation au point observé.
+  \item \verb+getCompositionDerivative+ : idem pour la fonction de composition.
+\end{itemize}
+
 \subsection{Le réseau}
+
+Le réseau est aussi implémenté en tant que classe.
+Un réseau dispose :
+\begin{itemize}
+  \item d'un nom (\verb+string+).
+  \item d'une date de création (\verb+string+).
+  \item de ses neurones (\verb+vector<Neuron>+).
+  \item de la liste de ses neurones d'entrée (\verb+vector<unsigned long>+).
+  \item de la liste de ses neurones de sortie (\verb+vector<unsigned long>+).
+  \item de la matrice des liens entre neurones (\verb+vector<vector<double>>+).
+  \item de son facteur d'apprentissage (\verb+unsigned long+).
+  \item de ses valeurs en entrée (\verb+vector<double>+).
+  \item de la matrice des sorties des neurones (\verb+vector<double>+).
+\end{itemize}
+
+\medskip
+
+Il dispose des méthodes nécessaires à la propagation du signal ainsi qu'à
+sa rétropropagation.
 
 \subsection{La CLI}
 
 \section{Bilan}
 
-Après un mois de débogage du code et de ses tests nous avons abouti à une
-solution fonctionnelle.
 
 \subsection{Les résultats}
+
+
 
 \subsection{Améliorations apportées}
 
