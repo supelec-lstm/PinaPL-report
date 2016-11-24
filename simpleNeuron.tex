@@ -228,20 +228,10 @@ Un réseau dispose :
 Il dispose des méthodes nécessaires à la propagation du signal ainsi qu'à
 sa rétropropagation.
 
-\subsection{La CLI}
-
-\section{Bilan}
-
-
-\subsection{Les résultats}
-
-
-
 \subsection{Améliorations apportées}
 
-Face à de tels temps de calcul, nous avons analysé la structure de notre code
-pour comprendre ce qui le ralentissait. De multiples causes majeures ont été
-identifiées :
+Nous avons ensuite amélioré le code pour diminuer le temps de calcul et clarfier
+la structure. Les éléments à améliorer sont :
 \begin{itemize}
 \item La structure orientée objet
 \item Le single-threading
@@ -273,3 +263,56 @@ un rafraîchissement de leur sortie. Cela permet de ne pas calculer à chaque
 itération la sortie de tous les neurones du réseau. Lors de la création du
 réseau, est construite une liste de vecteurs des neurones dont il faut évaluer
 la sortie au tour $i$.
+
+\section{Résultats}
+
+Après une longue période de débogage du script, nous avons obtenu des résultats
+satisfaisants.
+
+\subsection{Le XOR}
+
+\subsection{Le MNIST}
+
+Les données du problème du MNIST sont réparties en deux fichiers :
+\begin{itemize}
+    \item Le set d'apprentissage qui contient 60000 entrées (image de 784 pixels 
+          du chiffre manuscrit et chiffre représenté)
+    \item Le set de test qui contient 10000 entrées (différentes de celle du set
+          d'apprentissage)
+\end{itemize}
+
+\medskip
+
+Les valeurs des entrées sont stockées dans les fichiers entre 0 et 255, nous les avons
+centrées et normalisées (entre $-0.5$ et $0.5$).
+
+\medskip
+
+Tous les résultats présentés par la suite sont établis en soumettant au réseau
+après apprentissage les 10000 entrées du set de test et en comparant la sortie
+attendue et la sortie obtenue. On obtient la sortie du réseau en regardant le
+neurone avec la sortie maximale.
+
+\subsubsection{Le classificateur linéaire}
+
+En créant un réseau neuronal sans bias ni couche cachées on obtient un classificateur linéaire.
+Les 10 neurones de sortie sont reliés chacun aux 784 neurones d'entrées. Les poids sont 
+initialisés aléatoirement entre -1 et 1 selon une loi uniforme. La fonction d'activation est
+une siogmoïde, la composition est une somme, et la fonction de coût est l'écart quadratique.
+Le facteur d'apprentissage $\lambda$ est fixé à $0.3$ en accord avec la littérature sur le sujet.
+
+
+\medskip
+
+Les résultats d'un tel réseau sont forts intéressants car permettent après un
+apprentissage stochastique des 60000 échantillons de test d'obtenir un pourcentage moyen d'erreur
+de XX \%. (Moyenne effectuée sur 100 réalisations).
+
+\subsubsection{Réseau sans couche cachées}
+
+\subsection{Réseau avec 1 couche cachée}
+
+\subsubsection{Réseau avec deux couches cachées}
+
+
+
