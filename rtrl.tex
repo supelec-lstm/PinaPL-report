@@ -2,16 +2,25 @@
 
 \chapter{Real time reccurent learning}
 
-A partir de cette section, les objectifs sont de reconnaitre une chaine de caractère en temps réel. C'est à dire que en donnant un ou plusieurs caractères, on doit être capable de prédire la fin de la chaine. Ce genre de problème peut être étendu à la recherche comportementale en temps réel. Pour résoudre ce genre de problème, on utilise des réseaux neuronaux récurrents, qui ont l'avantage de se souvenir des états précedents pour pouvoir prédire efficacement les états suivants. Dans un premier temps, nous allons nous interesser aux réseaux RTRL.
+A partir de cette section, les objectifs sont de reconnaître une chaine de
+caractère en temps réel : c'est à dire que en donnant un ou plusieurs caractères
+, on doit être capable de prédire la fin de la chaine. Ce genre de problème peut
+ être étendu à la recherche comportementale en temps réel. Pour résoudre ce
+genre de problème, on utilise des réseaux neuronaux récurrents, qui ont
+l'avantage de se souvenir des états précedents pour pouvoir prédire efficacement
+ les états suivants; ils comportent une mémoire courte. Dans un premier temps,
+nous allons nous interesser aux réseaux RTRL.
 
 \section{Théorie}
 
-Dans la suite, nous allons nous interesser au problème de la grammaire de Reber, qui servira d'échantillon test pour RTRL.
+Dans la suite, nous allons nous interesser au problème de la grammaire de Reber,
+ qui servira d'échantillon de test pour RTRL.
 
 \subsection{La grammaire de Reber}
 
- Une grammaire de Reber est un langage défini par l'automate déterministe cyclique suivant :
- 
+ Une grammaire de Reber est un langage défini par l'automate déterministe
+ cyclique suivant :
+
 \begin{figure}[!ht]
 \begin{center}
 \includegraphics[scale=0.4]{rtrl/reberGrammar.png}
@@ -19,8 +28,12 @@ Dans la suite, nous allons nous interesser au problème de la grammaire de Reber
 \caption{Grammaire de Reber simple}
 \end{figure}
 
- 
-De base, on considère une probabilité uniforme de chosir l'état suivant parmis les états possibles suivants. La lettre $B$ et la lettre $E$ sont des lettres indiquant simplement le début et la fin du perceptron, elle n'ont pas d'interet propre pour la grammaire. Les autres lettres présentes sur les arètes peuvent variés, mais elles doivent respecter les règles suivantes :
+
+De base, on considère une probabilité uniforme de chosir l'état suivant parmis
+les états possibles suivants. La lettre $B$ et la lettre $E$ sont des lettres
+indiquant simplement le début et la fin de la chaîne, elles n'ont pas d'interet
+propre pour la grammaire. Les autres lettres présentes sur les arêtes peuvent
+variées, mais elles doivent respecter les règles suivantes :
 \medskip
 \begin{itemize}
 	\item Chaque lettre doit apparaitre exactement deux fois
