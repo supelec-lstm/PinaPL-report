@@ -54,8 +54,8 @@ complexité qu'un simple neurone, permettant de résoudre des problèmes
 jusqu'alors inaccessibles à la machine. Il permet par exemple de faire des
 classifications sur le MNIST. Le MNIST est un problème classique où l'on a des
 images resprésentant des chiffres manuscrits et pour lequel l'on doit déterminer
- le chiffre représenté. C'est un problème d'une extrême simplicité pour un être
- humain, mais presque impossible à résoudre avec une programmation classique
+le chiffre représenté. C'est un problème d'une extrême simplicité pour un être
+humain, mais presque impossible à résoudre avec une programmation classique
 sans réseau neuronal. Ainsi, pour construire un réseau, chaque perceptron est
 mis en relation avec ses pairs (un perceptron prend en entrée les sorties
 d'autres perceptrons). On construit alors un graphe orienté dans lequel chaque
@@ -74,7 +74,7 @@ On peut définir plusieurs types de neurones dans un réseau :
 \bigskip
 
 Il faut donc autant de neurones d'entrée que de dimensions qu'a l'échantillon
-que l'on veut soumettre au réseau. Par exemple dans le cadre du MNIST (insert cite here)
+que l'on veut soumettre au réseau. Par exemple dans le cadre du MNIST
 on veut en entrée une image de dimension $28 \times 28$, on place donc $784$
 neurones d'entrées. En pratique, les neurones d'entrée sont des neurones fictifs
 ; ils sont présents pour faciliter la construction du réseau de neurone.
@@ -84,11 +84,11 @@ que leur entrée. Nous ne les considérerons pas dans la théorie qui suit.
 \medskip
 
 Les neurones des couches cachées sont présents entre les neurones d'entrée et de
- sortie. Ils sont utiles uniquement pour le calcul de la sortie. Le nombre de
- couches et la taille des couches influent sur l'action du réseau. Un réseau à
- multiples couches cachées sera capable de traiter des problèmes beaucoup plus
- complexes qu'un réseau à simple couche cachée. Il est évident que cela augmente
-  néanmoins la complexité des calculs et le temps d'exécution.
+sortie. Ils sont utiles uniquement pour le calcul de la sortie. Le nombre de
+couches et la taille des couches influent sur l'action du réseau. Un réseau à
+multiples couches cachées sera capable de traiter des problèmes beaucoup plus
+complexes qu'un réseau à simple couche cachée. Il est évident que cela augmente
+néanmoins la complexité des calculs et le temps d'exécution.
 
 \medskip
 
@@ -146,7 +146,7 @@ le réseau est un réseau à $K$ couches, que la première couche est l'ensemble
 
 L'efficacité d'un réseau de neurones se mesure à la qualité de sa classification
 . Celle-ci dépend des poids qui sont attribués à chacune de ses entrées. Il faut
- donc déterminer la bonne combinaison de poids qui permettra au réseau de
+donc déterminer la bonne combinaison de poids qui permettra au réseau de
 simuler la fonction voulue. Le nombre de poids présents dans un réseau augmente
 très rapidement et il devient complexe d'estimer cette bonne combinaison. Pour
 cela, on procède à une phase apprentissage : on utilise un échantillon de
@@ -154,7 +154,8 @@ données dont on connaît le résultat pour construire un réseau avec les bon p
 . On part ainsi d'un réseau avec des poids aléatoires, choisis dans un
 intervalle restreint et centré en zéro, et on les modifie en prenant en compte
 les erreurs entre les valeurs obtenues et les valeurs théoriques. Dans la suite,
- on s'intéressera à toute la démarche nécessaire pour arriver à cette modification de poids.
+on s'intéressera à toute la démarche nécessaire pour arriver à cette
+modification de poids.
 
 \medskip
 
@@ -239,7 +240,8 @@ Donc par récurrence, pour tout $l \geq k$ il existe $\delta y^{(l)}$ tel que :
 \[\cfrac{\partial E}{\partial w_{ij}^{(k)}} = \left\langle\cfrac{\partial \overline{y^{(l)}}}{\partial w_{ij}^{(k)}} ,\delta y^{(l)}\right\rangle\]
 
 On remarquera que $\delta y^{(l)}$ ne dépend pas de $w_{ij}^{(k)}$. On appellera
- $\delta y^{(l)}_j$ le gradient du neurone $j$ de la couche $l$. Ce gradient vérifie la relation de reccurence suivante d'après ce qui précède :
+ $\delta y^{(l)}_j$ le gradient du neurone $j$ de la couche $l$. Ce gradient
+ vérifie la relation de reccurence suivante d'après ce qui précède :
 
 \[
 \left \{
