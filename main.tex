@@ -43,10 +43,10 @@ pdfauthor = {Amosse Maxime,
 			Hemery Julien,
 			Hervieux Hugo,
     		Pascou Sylvain},			% Auteurs
-pdftitle = {PinaPL -
+pdftitle = {PinaPL ---
 			Projet-long sur les réseaux neuronaux},			% Titre du document
 pdfsubject = {Compte rendu de projet},		% Sujet
-pdfkeywords = {PinaPL, neuron, ...},	% Mots-clefs
+pdfkeywords = {PinaPL, neuron, \ldots},	% Mots-clefs
 pdfstartview={FitH}}					% ajuste la page à la largueur de l'écran
 %pdfcreator = {MikTeX},% Logiciel qui a crée le document
 %pdfproducer = {}} % Société avec produit le logiciel
@@ -59,18 +59,20 @@ pdfstartview={FitH}}					% ajuste la page à la largueur de l'écran
 \newcommand{\HRule}{\rule{\linewidth}{0.5mm}}
 
 %page de garde
-\input{./title.tex}
+\input{./parts/00-title.tex}
 
 %page blanche
 \newpage
-~
 %ne pas numéroter cette page
 \thispagestyle{empty}
 \newpage
 
-\input{./abstract.tex}
+\input{./parts/01-abstract.tex}
 
+\renewcommand{\baselinestretch}{0.15}\normalsize
 \tableofcontents
+\renewcommand{\baselinestretch}{1.00}\normalsize
+
 \thispagestyle{empty}
 \setcounter{page}{0}
 %ne pas numéroter le sommaire
@@ -82,21 +84,20 @@ pdfstartview={FitH}}					% ajuste la page à la largueur de l'écran
 
 %====================== INCLUSION DES PARTIES ======================
 
-~
 \thispagestyle{empty}
 %recommencer la numérotation des pages à "1"
 \setcounter{page}{0}
 \newpage
 
-\input{./presentation.tex}
+\input{./parts/02-presentation.tex}
 
-\input{./simpleNeuron.tex}
+\input{./parts/03-simpleNeuron.tex}
 
-\input{./rtrl.tex}
+\input{./parts/04-rtrl.tex}
 
 %\input{./suite.tex}
 
-\input{./annexes.tex}
+\input{./parts/99-annexes.tex}
 
 \newpage
 
