@@ -17,8 +17,28 @@ LSTM est notamment utilisé dans des applications de reconnaissance vocale.
 
 \section{Théorie}
 \subsection{Cellule LSTM}
+La cellule LSTM est un petit réseau de perceptrons récurrent présentant des
+élément nommés en fonction de leur rôle dans la cellule.
+
+\begin{figure}[!ht]
+\begin{center}
+\includegraphics[scale=0.8]{images/lstm.png}
+\end{center}
+\caption{Cellule LSTM}
+\end{figure}
+
 \subsection{Propagation}
+
 \subsection{Algorithmes d'apprentissage}
+L'algorithme d'apprentissage est un algorithme BPTT appliqué aux cellules
+LSTM considérées.
+
+\begin{figure}[!ht]
+\begin{center}
+\includegraphics[scale=0.4]{images/lstm-bptt.png}
+\end{center}
+\caption{Dépliement du temps dans l'espace style BPTT}
+\end{figure}
 
 \section{Implémentation}
 
