@@ -1,4 +1,4 @@
-% !TeX root = main.tex
+% !TeX root = ../main.tex
 
 \chapter{Réseau neuronal simple}
 
@@ -58,7 +58,7 @@ Une réseau de neurones permet de créer des fonctions de bien plus grande
 complexité qu'un simple neurone, permettant de résoudre des problèmes
 jusqu'alors inaccessibles à la machine. Il permet par exemple de faire des
 classifications sur le MNIST. Le MNIST est un problème classique où l'on a des
-images resprésentant des chiffres manuscrits et pour lequel l'on doit déterminer
+images représentant des chiffres manuscrits et pour lequel l'on doit déterminer
 le chiffre représenté. C'est un problème d'une extrême simplicité pour un être
 humain, mais presque impossible à résoudre avec une programmation classique
 sans réseau neuronal. Ainsi, pour construire un réseau, chaque perceptron est
@@ -131,7 +131,7 @@ des neurones en $K$ ensembles. On chacun de ces ensembles une "couche". De plus,
 chaque neurone d'une couche a comme entrées l'ensemble (ou partie) des sorties
 des neurones de la couche précédente. On notera $\alpha^{(k)}_j$ l'élément $j$
 de la couche $k$ de $\alpha$. On notera également $N_k$ le nombre de neuroneq à
-la couhce $k$. On a donc pour tout $k > 1$ :
+la couche $k$. On a donc pour tout $k > 1$ :
 
 \[y_i^{(k)} = \sigma_i^{(k)}(\sum_{j = 0}^{N_{k-1}} y_j^{(k-1)}w_{ij}^{(k)} + \theta_i^{(k)}) \]
 
@@ -195,7 +195,7 @@ rapport à un facteur $x$. On crée alors une suite $(x_n)$ telle que
 $x_{n+1} = x_{n} - \cfrac{\partial f}{\partial x}(x_n)$.
 L'idée est se déplacer sur le potentiel de $f$ grâce à son gradient. Avec cette
 méthode, on peut calculer facilement la suite $(x_n)$ car il suffit d'évaluer
-le gradient en un point et non plus en un nombre continuement infini.
+le gradient en un point et non plus en un nombre continument infini.
 
 \medskip
 
@@ -212,11 +212,12 @@ D'après ce qui précède, l'objectif est donc d'évaluer pour tout $w_{ij}^{(k)
 
 \begin{align*}
 \cfrac{\partial E}{\partial w_{ij}^{(k)}} &= \sum_{l = 1}^{M} \cfrac{\partial y_l^{(K)}}{\partial w_{ij}^{(k)}} \times \cfrac{\partial E}{\partial y_l}\\
-&= \left\langle\cfrac{\partial y^{(K)}}{\partial w_{ij}^{(k)}},\cfrac{\partial E}{\partial y}\right\rangle\\
-&= \left\langle\cfrac{\partial \overline{y^{(K)}}}{\partial w_{ij}^{(k)}} \odot \sigma'(\overline{y}),\cfrac{\partial E}{\partial y}\right\rangle \\
-&= \left\langle\cfrac{\partial \overline{y^{(K)}}}{\partial w_{ij}^{(k)}} ,\sigma'(\overline{y^{(K)}}) \odot \cfrac{\partial E}{\partial y}\right\rangle
+&= \left\langle\cfrac{\partial y^{(K)}}{\partial w_{ij}^{(k)}}, J_E\right\rangle\\
+&= \left\langle\cfrac{\partial \overline{y^{(K)}}}{\partial w_{ij}^{(k)}} \odot \sigma'(\overline{y^{(K)}}), J_E\right\rangle \\
+&= \left\langle\cfrac{\partial \overline{y^{(K)}}}{\partial w_{ij}^{(k)}} ,\sigma'(\overline{y^{(K)}}) \odot J_E\right\rangle
 \end{align*}
 
+Avec $J_E$ la jacobienne de $E$ au point considéré.
 Calculons maintenant $\cfrac{\partial \overline{y^{(l)}}}{\partial w_{ij}^{(k)}}$.
 Tout d'abord, remarquons que si $l = k$ alors on a simplement :
 
@@ -246,12 +247,12 @@ Donc par récurrence, pour tout $l \geq k$ il existe $\delta y^{(l)}$ tel que :
 
 On remarquera que $\delta y^{(l)}$ ne dépend pas de $w_{ij}^{(k)}$. On appellera
  $\delta y^{(l)}_j$ le gradient du neurone $j$ de la couche $l$. Ce gradient
- vérifie la relation de reccurence suivante d'après ce qui précède :
+ vérifie la relation de récurrence suivante d'après ce qui précède :
 
 \[
 \left \{
 \begin{array}{c @{=} c}
-    \delta y^{(K)} & \sigma'(\overline{y^{(K)}}) \odot \cfrac{\partial E}{\partial y}\\
+    \delta y^{(K)} & \sigma'(\overline{y^{(K)}}) \odot J_E\\
     \delta y^{(k)} & \sigma(\overline{y^{(k)}}) \odot ({}^t \! w^{(k+1)} \times \delta y^{(k+1)})\\
 \end{array}
 \right.
