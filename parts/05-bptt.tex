@@ -16,11 +16,51 @@ complexité temporelle inférieure.
 \includegraphics[scale=0.2]{images/bptt.png}
 \end{center}
 \caption{Dépliement du temps dans l'espace pour BPTT}
+% TODO : crédits
 \end{figure}
+
 
 \subsection{Réseau BPTT}
 
 \section{Implémentation}
+
+L'implémenation est effectuée en C++ via la librairie de calcul matriciel
+Eigen3. Toutes les matrices sont des objets de type Eigen::MatrixXd (matrice de
+double) et les vecteurs des objets de type Eigen::VectorXd.
+
+\medskip
+
+L'aléatoire utilisé est celui natif en C et C++ : rand.
+La génération de la graine se fait à partir du temps à la milliseconde pour
+éviter une initialisation déterministe dans le cas de l'execution de plusieurs
+runs consécutifs. Pour cela la librairie 'sys/time.h' est utilisée, avec un
+appel propre aux systèmes UNIX.
+
+\bigskip
+
+\subsection{Structure de données}
+
+Le code se décompose en plusieurs éléments : 
+
+Les poids
+Une couche de neurones fully-connected
+Le réseau de couches dépliées dans le temps
+
+\subsubsection{Les poids}
+
+% TODO : détailler attributs et methodes
+
+Enfin, les méthodes de l'objet Poids sont le constructeur et
+l'application des variations de poids (qui remet par la même occasion à 0
+les delta-poids).
+
+\subsubsection{La couche de neurones}
+
+% TODO : détailler fonction, attributs, methodes
+
+\subsubsection{Le réseau}
+
+% TODO : détailler fonction, attributs, methodes
 
 \section{Résultats}
 \subsection{Grammaire de Reber simple}
