@@ -4,7 +4,9 @@
 L'algorithme BPTT appliqué à un réseau neuronal récurrent a pour particularité
 de déplier le temps dans l'espace; par exemple, pour apprendre un mot de cinq
 caractères, on va créer cinq réseaux non-récurrents qui représentent chaqun un
-"temps", soit une lettre de la séquence. \\
+"temps", soit une lettre de la séquence.
+
+\medskip
 
 Cet algorithme a pour avantage, par rapport à celui RTRL, d'avoir une
 complexité temporelle inférieure.
@@ -13,10 +15,10 @@ complexité temporelle inférieure.
 
 \begin{figure}[!ht]
 \begin{center}
-\includegraphics[scale=0.2]{images/bptt.png}
-\end{center}
+\includegraphics[width=0.8\textwidth]{images/bptt.png}
 \caption{Dépliement du temps dans l'espace pour BPTT}
 % TODO : crédits
+\end{center}
 \end{figure}
 
 

@@ -17,21 +17,26 @@ Une grammaire de Reber est un langage défini par l'automate déterministe cycli
 
 \begin{figure}[!ht]
 \begin{center}
-\includegraphics[scale=0.4]{images/reberGrammar.png}
+\includegraphics[width=0.6\textwidth]{images/reberGrammar.png}
 \end{center}
 \caption{Grammaire de Reber simple}
+% TODO : Include credits
 \end{figure}
 
 
 De base, on considère une probabilité uniforme de choisir l'état suivant parmi les états possibles suivants.
 La lettre $B$ et la lettre $E$ sont des lettres indiquant simplement le début et la fin de la chaîne, elles n'ont pas d'intérêt propre pour la grammaire.
 Les autres lettres présentes sur les arêtes peuvent variées, mais elles doivent respecter les règles suivantes :
+
 \medskip
+
 \begin{itemize}
 	\item Chaque lettre doit apparaitre exactement deux fois
 	\item On ne peut pas obtenir deux lettres consécutives en passant par des états différents.
 \end{itemize}
-\vspace{\parskip}
+
+\medskip
+
 L'intérêt de la grammaire de Reber est que c'est un automate simple qui ne nécessite que la mémoire de la dernière et de l'avant dernière lettre pour trouver la suivante.
 En effet, d'après la dernière règle, connaitre les deux dernières lettres impose l'état actuel dans l'automate.
 En outre, chaque lettre apparaissant deux fois, la connaissance seule de la dernière lettre ne suffit pas à prédire la suivante correctement.
@@ -39,12 +44,14 @@ On remarque que l'on peut résoudre ce problème avec un perceptron classique si
 Ce modèle bien que résolvant ce problème, n'est pas adapté au calcul en temps réel.
 De plus il ne résout pas le problème de la grammaire de Reber double.
 
+\medskip
+
 Le problème de la grammaire double est un problème similaire à la grammaire
 simple. L'automate le représentant est :
 
 \begin{figure}[!ht]
 \begin{center}
-\includegraphics[scale=0.4]{images/reberGrammarSymmetric.png}
+\includegraphics[width=0.6\textwidth]{images/reberGrammarSymmetric.png}
 \end{center}
 \caption{Grammaire de Reber symétrique}
 \end{figure}
@@ -76,7 +83,7 @@ On obtient donc pour l'apprentissage :
 
 \begin{figure}[!ht]
 \begin{center}
-\includegraphics[scale=0.8]{images/rtrl.png}
+  \includegraphics[width=0.5\textwidth]{images/rtrl.png}
 \end{center}
 \caption{Réseau récurrent RTRL}
 \end{figure}

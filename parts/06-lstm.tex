@@ -8,18 +8,25 @@ neuronales, elle est constituée d'un assemblage de blocs élémentaires qui
 disposent d'un ensemble de variables, appelés poids, à adapter lors de la phase
 d'apprentissage afin de reproduire une fonction. Cependant, la cellule
 élémentaire d'un réseau LSTM est bien plus complexe que celle d'un réseau
-neuronal à perceptrons. \\
+neuronal à perceptrons.
+
+\medskip
 
 La dénomination LSTM vient du fait que ce type de réseau possède une mémoire de
 plus longue durée que des structures plus simples avec une seule couche de
 neurones. Ainsi, il sera possible d'apprendre des fonctions telles que la
 grammaire de Reber double, ou bien de générer du texte après avoir appris des
-écrits de Shakespeare. \\
+écrits de Shakespeare.
+
+\medskip
 
 LSTM est notamment utilisé dans des applications de reconnaissance vocale.
 
+\medskip
+
 \section{Théorie}
 \subsection{Cellule LSTM}
+
 La cellule LSTM est constituée de différents réseaux de perceptrons.
 La principale différence avec un simple réseau à perceptrons est que la cellule
 possède une mémoire. Il s'agit d'un vecteur qui sera pris en entrée (en même
@@ -31,6 +38,7 @@ les entrées au temps $t$ et renvoyé au temps $t+1$ dans la même cellule.
 Chaque réseau de perceptrons représente une opération sur la mémoire, tous
 prennent en entrée l'entrée de la cellule au temps $t$ et sa sortie au temps
 $t-1$:
+
 \begin{itemize}
   \item La "input gate" est le réseau qui effectue des opérations d'addition
     sur la mémoire.
@@ -44,7 +52,7 @@ $t-1$:
 
 \begin{figure}[!ht]
 \begin{center}
-\includegraphics[scale=0.8]{images/lstm.png}
+\includegraphics[width=0.6\linewidth]{images/lstm.png}
 \end{center}
 \caption{Cellule LSTM}
 % TODO : Credits or new figure
@@ -70,6 +78,8 @@ la mémoire de la cellule au temps $t$ et $\odot$ le produit d'Hadamard,
 on peut définir les expressions suivantes pour les sorties de chaque couche de
 perceptrons :
 
+\medskip
+
 \begin{itemize}
   \item block input :
     $$\overline{z}^t = W_z x^t + R_z y^{t-1} + b_z$$
@@ -92,7 +102,7 @@ LSTM considérées.
 
 \begin{figure}[!ht]
 \begin{center}
-\includegraphics[scale=0.4]{images/lstm-bptt.png}
+\includegraphics[width=0.8\textwidth]{images/lstm-bptt.png}
 \end{center}
 \caption{Dépliement du temps dans l'espace style BPTT}
 % TODO : Credits or new figure

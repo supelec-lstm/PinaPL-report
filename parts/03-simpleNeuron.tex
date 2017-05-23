@@ -8,18 +8,19 @@
 
 Le perceptron est le neurone le plus basique que l'on puisse trouver dans la
 littérature. Un perceptron est défini par :
+
 \begin{itemize}
-\item $n$ entrées $x_i$
-\item $1$ sortie $y$
-\item $n$ poids $w_i$
-\item $1$ biais $\theta$
-\item $1$ fonction de composition $g : \mathbb{R}^n \to \mathbb{R}$
-\item $1$ fonction d'activation $f : \mathbb{R} \to \mathbb{R}$
+  \item $n$ entrées $x_i$
+  \item $1$ sortie $y$
+  \item $n$ poids $w_i$
+  \item $1$ biais $\theta$
+  \item $1$ fonction de composition $g : \mathbb{R}^n \to \mathbb{R}$
+  \item $1$ fonction d'activation $f : \mathbb{R} \to \mathbb{R}$
 \end{itemize}
 
 \begin{figure}[!ht]
 \begin{center}
-\includegraphics[scale=0.8]{images/perceptron.png}
+\includegraphics[width=0.75\textwidth]{images/perceptron.png}
 \end{center}
 \caption{Schéma d'un perceptron simple}
 \end{figure}
@@ -333,9 +334,9 @@ sa rétropropagation.
 Nous avons ensuite amélioré le code pour diminuer le temps de calcul et clarfier
 la structure. Les éléments à améliorer sont :
 \begin{itemize}
-\item La structure orientée objet
-\item Le single-threading
-\item calcul à chaque pas des sorties de chaque neurone
+  \item La structure orientée objet
+  \item Le single-threading
+  \item calcul à chaque pas des sorties de chaque neurone
 \end{itemize}
 
 \medskip
