@@ -188,7 +188,17 @@ la différence entre sortie obtenue et sortie attendue.
 
 Les attributs sont donc les suivants :
 
-% TODO
+\begin{itemize}
+  \item \verb+WeightsLSTM* weights+ l'objet poids qui sera utilisé par la cellule pour calculer les sorties de chaque noeud ;
+  \item \verb+Eigen::VectorXd input+ vecteur des entrées de la cellule à l'instant $t$ ;
+  \item \verb+Eigen::VectorXd previous_output+ vecteur des sorties de la cellule à l'instant $t-1$ ;
+  \item \verb+Eigen::VectorXd previous_cell_state+ mémoire de la cellule à l'instant $t-1$ ;
+  \item \verb+Eigen::VectorXd input_gate_out+ sortie du noeud input\_gate à l'instant $t$ ;
+  \item \verb+Eigen::VectorXd input_block_out+ sortie du noeud input\_block à l'instant $t$ ;
+  \item \verb+Eigen::VectorXd output_gate_out+ sortie du noeud output\_gate à l'instant $t$ ;
+  \item \verb+Eigen::VectorXd cell_state+ mémoire de la cellule à l'instant $t$ ;
+  \item \verb+Eigen::VectorXd cell_out+ sortie de la cellule à l'instant $t$.
+\end{itemize}
 
 Les méthodes sont donc les suivantes :
 
@@ -197,14 +207,14 @@ Les méthodes sont donc les suivantes :
 \subsubsection{Le réseau LSTM}
 
 Le réseau LSTM est principalement constitué d'un std::vector<CellLSTM>.
-A chaque temps $t_i$, une nouvelle cellule est crée et stockée à l'index i du
+A chaque temps $t$, une nouvelle cellule est crée et stockée à l'index i du
 vector.
 
 \medskip
 
 La propagation s'effectue cellule par cellule, chaque cellule prenant en entrée
-la sortie de la précédente à $t_{i-1}$ ainsi que l'entrée du réseau au temps
-$t_i$.
+la sortie de la précédente à $t-1$ ainsi que l'entrée du réseau au temps
+$t$.
 
 \medskip
 
@@ -214,8 +224,6 @@ la première.
 \bigskip
 
 Les attributs sont donc les suivants :
-
-% TODO
 
 \bigskip
 
