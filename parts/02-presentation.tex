@@ -4,22 +4,21 @@
 
 \section{Objectifs}
 
-Ce projet a été lancé le 23 septembre 2016 sur proposition de Mme. Joana Tomasik
-et Mr.\ Arpad Rimmel. Le but est de réimplémenter en moins d'un an l'algorithme
-LSTM\footnotemark. Il s'agit d'un réseau neuronal récurrent avec mémoire.
+Ce projet a été lancé le 23 septembre 2016 sur proposition de M\textsuperscript{me} Joana \textsc{Tomasik}
+et M.\ Arpad \textsc{Rimmel}. Le but est d'implémenter en un peu moins d'un an un algorithme d'apprentissage sur un réseau neuronal avec mémoire appelé LSTM\footnotemark, en étudiant d'autres structures de réseaux plus simples auparavant.
 
 \footnotetext{Long Short Term Memory}
 
 \bigskip
 
-Un tel projet représente de fortes contraintes techniques (implémentation du
- réseau, gestion de la mémoire, performances, \ldots) mais aussi un défi
- théorique (preuve de terminaison, gestion des cycles, \ldots).
+Un tel projet représente de fortes contraintes techniques (implémentation de la structure de
+ réseau neuronal, gestion de la mémoire, performances, \ldots) mais aussi un défi
+ théorique (élaboration des algorithmes, leur justification formelle, \ldots).
 
 \bigskip
 
-Pour arriver à ce résultat, l'année est découpée en différents "runs" et dans
-chacun nous devons découvrir et implémenter une spécificité des réseaux
+Pour arriver à ce résultat, l'année est découpée en différents grandes étapes et dans
+chacune nous devons découvrir et implémenter une spécificité des réseaux
 neuronaux.
 Tout d'abord nous voulons implémenter un réseau neuronal simple pour
 nous familiariser avec le concept des réseaux de neurones et mettre en place
@@ -28,37 +27,37 @@ basiques pour y introduire des propriétés plus complexes, tels les réseaux
 récurrents (RTRL, BPTT). Enfin, nous adapterons le réseau et son algorithme pour
 qu'il corresponde à celui du LSTM.
 
-\section{Equipe}
+\section{Équipe}
 
-L'équipe du projet est composée de 4 élèves-ingénieurs de CentraleSupélec Gif :
-Maxime Amossé, Julien Hemery, Hugo Hervieux et Sylvain Pascou, encadrés par deux
-enseignants-chercheurs du même établissement, Mme.\ Joana Tomasik et Mr.\ Arpad
-Rimmel.
+L'équipe du projet est composée de quatre élèves-ingénieurs de CentraleSupélec, cursus ingénieur Supélec :
+Maxime \textsc{Amossé}, Julien \textsc{Hemery}, Hugo \textsc{Hervieux} et Sylvain \textsc{Pascou}, encadrés par deux
+enseignants-chercheurs du même établissement, M\textsuperscript{me} Joana \textsc{Tomasik} et M.\ Arpad
+\textsc{Rimmel}.
 
 \section{Outils}
 
-\subsection{Le langage}
-Le langage de programmation choisi est le C++, pour sa rapidité d'execution,
-sa plus grande versatilité que le C ainsi que le aspects pédagogiques de son
+\subsection{Langage de programmation}
+Le langage de programmation choisi est le C++, pour sa rapidité d'exécution,
+sa grande versatilité, la richesse de sa communauté, ainsi que le aspects pédagogiques de son
 utilisation. Il est important de faire remarquer que ce langage est compilé et
-donc ne permet donc pas directement à l'utilisateur d'intéragir avec les
-variables durant l'exécution, ce qui complique les phases de débugage.
+donc ne permet donc pas directement à l'utilisateur d'interagir simplement avec les
+variables durant l'exécution, ce qui complique significativement les phases de déboggage.
 
-\subsection{Git}
+\subsection{Outil de versionnement}
 
 Pour travailler en groupe de manière efficace nous avons utilisé le
-gestionnaire de version Git et un dépot distant sur la plateforme GitHub :
+gestionnaire de version Git et un dépôt partagé sur la plateforme GitHub :
 \url{https://github.com/supelec-lstm/PinaPL}. Il nous a fallu une dizaine
-d'heures et quelques règles de bonne conduite pour ne pas créer des conflits à
-chaque merge et faciliter le travail de chacun.
+d'heures et quelques règles de bonne conduite pour éviter de créer des
+conflits et faciliter le travail de chacun.
 
 \smallskip
 
 Chaque développeur travaille donc sur la branche de la fonction qu'il
-implémente puis la merge dans la branche master lorsqu'il à une version
+implémente, puis il la fusionne dans la branche principale lorsqu'il a une version
 stable qui compile et se comporte correctement.
 
-\subsection{Zotero}
+\subsection{Gestion de la bibliographie et références}
 
 Zotero est un outil gratuit de gestion de bibliographie. Il permet à tous les
 membres du projet d'y enregistrer des références utiles, des articles papiers,
@@ -66,9 +65,9 @@ mais aussi les fichiers PDF contenant lesdits articles.
 De plus, il nous permet d'exporter régulièrement la bibliographie sous un
 format standard pour l'inclure dans ce rapport.
 
-\subsection{LaTeX}
+\subsection{Écriture du présent rapport}
 
-Il s'agit d'un langage de création de documents. Axé autour du document
-scientifique, il est reconnu par la communauté pour sa facilité d'utilisation
-et sa capacité à générer des documents propres et ordonnés. Ce rapport a été
-rédigé grâce à LaTeX.
+Enfin, pour rédiger ce rapport, nous avons utilisé \LaTeX\xspace. Il s'agit d'un
+langage de création de documents axé autour du document
+scientifique ; il est reconnu par la communauté pour sa facilité d'utilisation
+et sa capacité à générer des documents propres et ordonnés.
