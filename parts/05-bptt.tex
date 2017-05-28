@@ -42,7 +42,7 @@ appel propre aux systèmes UNIX.
 
 \subsection{Structure de données}
 
-Le code se décompose en plusieurs éléments : 
+Le code se décompose en plusieurs éléments :
 \begin{itemize}
   \item Les poids
   \item Une couche de neurones fully-connected
@@ -66,5 +66,34 @@ les delta-poids).
 % TODO : détailler fonction, attributs, methodes
 
 \section{Résultats}
+Ci-dessous des représentations de l'apprentissage au cours du temps du réseau sur des
+grammaires de Reber, simple et double. \\
+En abscisse, le nombre de mots appris, en ordonnée le taux de réussite, testé à
+intervalles réguliers sur un échantillon de données de test choisies aléatoirement
+dans l'ensemble de test. \\
+La zone grise correspond à l'intervalle de confiance à $95\%$ sur le nombre d'exécutions
+précisé.\\
+Le réseau utilisé est composé d'une couche cachée de 30 neurones, avec un learning
+rate de $0.1$.
+
 \subsection{Grammaire de Reber simple}
-\subsection{Grammaire de Reber double}
+Pour une grammaire de Reber simple, la réussite est déterminée par la prédiction
+correcte de toutes les transitions des mots testés.
+
+\begin{figure}[!ht]
+\begin{center}
+\includegraphics[width=0.8\textwidth]{images/results/bptt_simplereber_ls30_lr01.png}
+\caption{Apprentissage au cours du temps, BPTT sur grammaire de Reber simple}
+\end{center}
+\end{figure}
+
+\subsection{Grammaire de Reber symétrique}
+Pour une grammaire de Reber symétrique, réussite est déterminée par la prédiction
+correcte de la première et la dernière transition des mots.
+
+\begin{figure}[!ht]
+\begin{center}
+\includegraphics[width=0.8\textwidth]{images/results/bptt_doublereber_ls30_lr01.png}
+\caption{Apprentissage au cours du temps, BPTT sur grammaire de Reber symétrique}
+\end{center}
+\end{figure}

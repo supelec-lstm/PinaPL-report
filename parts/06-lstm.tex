@@ -126,7 +126,7 @@ appel propre aux systèmes UNIX.
 
 \subsection{Structure de données}
 
-Le code se décompose en plusieurs éléments : 
+Le code se décompose en plusieurs éléments :
 
 \medskip
 
@@ -188,42 +188,110 @@ la différence entre sortie obtenue et sortie attendue.
 
 Les attributs sont donc les suivants :
 
-% TODO
+\begin{itemize}
+  \item \verb+WeightsLSTM* weights+ l'objet poids qui sera utilisé par la
+    cellule pour calculer les sorties de chaque noeud ;
+  \item \verb+Eigen::VectorXd input+ vecteur des entrées de la cellule à
+    l'instant $t$ ;
+  \item \verb+Eigen::VectorXd previous\_output+ vecteur des sorties de la
+    cellule à l'instant $t-1$ ;
+  \item \verb+Eigen::VectorXd previous\_cell\_state+ mémoire de la cellule
+    à l'instant $t-1$ ;
+  \item \verb+Eigen::VectorXd input\_gate\_out+ sortie du noeud input\_gate
+    à l'instant $t$ ;
+  \item \verb+Eigen::VectorXd input\_block\_out+ sortie du noeud input\_block
+    à l'instant $t$ ;
+  \item \verb+Eigen::VectorXd output\_gate\_out+ sortie du noeud output\_gate
+    à l'instant $t$ ;
+  \item \verb+Eigen::VectorXd cell\_state+ mémoire de la cellule à
+    l'instant $t$ ;
+  \item \verb+Eigen::VectorXd cell\_out+ sortie de la cellule à l'instant $t$.
+\end{itemize}
 
 Les méthodes sont donc les suivantes :
 
-% TODO
+\begin{itemize}
+  \item \verb+compute( Eigen::VectorXd previous\_output,
+    Eigen::VectorXd previous\_memory, Eigen::VectorXd input)+ la methode qui
+    calcule la sortie de chaque noeud de la cellule, puis la sortie de la
+    cellule. Renvoie \verb+<cell\_out, cell\_state>+ ;
+  \item \verb+compute\_gradient(
+    Eigen::VectorXd deltas, Eigen::VectorXd previous\_delta\_cell\_in,
+    Eigen::VectorXd previous\_delta\_cell\_state)+ la methode qui calcule le
+    gradient en entrée de la cellule en fonction des gradients en sortie.
+    Renvoie \verb+<delta\_input, delta\_cell\_state>+.
+\end{itemize}
 
 \subsubsection{Le réseau LSTM}
 
 Le réseau LSTM est principalement constitué d'un std::vector<CellLSTM>.
-A chaque temps $t_i$, une nouvelle cellule est crée et stockée à l'index i du
+A chaque temps $t$, une nouvelle cellule est crée et stockée à l'index i du
 vector.
 
 \medskip
 
 La propagation s'effectue cellule par cellule, chaque cellule prenant en entrée
-la sortie de la précédente à $t_{i-1}$ ainsi que l'entrée du réseau au temps
-$t_i$.
-
-\medskip
-
-De même, la rétropropagation s'effectue de la dernière cellule du vector à
+la sortie de la précédente à $t-1$ ainsi que l'entrée du réseau au temps
+$t$. De même, la rétropropagation s'effectue de la dernière cellule du vector à
 la première.
 
 \bigskip
 
 Les attributs sont donc les suivants :
 
-% TODO
+\begin{itemize}
+  \item
+  \item \verb+WeightsLSTM* weights+ l'objet poids utilisé pour la création de
+    chaque cellule;
+  \item \verb+int input\_size+ la taille de l'entrée;
+  \item \verb+int output\_size+ la taille de la sortie ;
+  \item \verb+int layer\_size+ la taille des couches cachées ;
+  \item \verb+std::vector<Cell> cells+ le vecteur dans lequel sont stockées les
+    cellules crées pour chaque instant $t$ de la propagation.
+\end{itemize}
 
 \bigskip
 
 Les méthodes sont donc les suivantes :
 
-% TODO
+\begin{itemize}
+  \item \verb+propagate(std::vector<Eigen::VectorXd> inputs)+ crée à chaque
+    instant $t$ une nouvelle cellule et utilise sa methode \verb+compute+
+    pour calculer l'entrée de la suivante ;
+  \item \verb+backpropagate(std::vector<Eigen::VectorXd> expected\_outputs)+
+    rétropropage le gradient de la dernière cellule à la première en utilisant
+    la methode \verb+compute\_gradient+ de chaque cellule;
+\end{itemize}
 
 \section{Résultats}
-\subsection{Apprentissage sur un mot}
+Ci-dessous des représentations de l'apprentissage au cours du temps du réseau sur des
+grammaires de Reber, simple et double. \\
+En abscisse, le nombre de mots appris, en ordonnée le taux de réussite, testé à
+intervalles réguliers sur un échantillon de données de test choisies aléatoirement
+dans l'ensemble de test. \\
+La zone grise correspond à l'intervalle de confiance à $95\%$ sur le nombre d'exécutions
+précisé.\\
+Le réseau utilisé est composé d'une couche de 30 cellules LSTM, avec un learning
+rate de $0.1$.
+
 \subsection{Grammaire de Reber simple}
-\subsection{Grammaire de Reber double}
+Pour une grammaire de Reber simple, la réussite est déterminée par la prédiction
+correcte de toutes les transitions des mots testés.
+
+\begin{figure}[!ht]
+\begin{center}
+\includegraphics[width=0.8\textwidth]{images/results/lstm_simplereber_ls30_lr01.png}
+\caption{Apprentissage au cours du temps, LSTM sur grammaire de Reber simple}
+\end{center}
+\end{figure}
+
+\subsection{Grammaire de Reber symétrique}
+Pour une grammaire de Reber symétrique, réussite est déterminée par la prédiction
+correcte de la première et la dernière transition des mots testés.
+
+\begin{figure}[!ht]
+\begin{center}
+\includegraphics[width=0.8\textwidth]{images/results/lstm_doublereber_ls30_lr01.png}
+\caption{Apprentissage au cours du temps, LSTM sur grammaire de Reber symétrique}
+\end{center}
+\end{figure}
