@@ -189,14 +189,22 @@ la différence entre sortie obtenue et sortie attendue.
 Les attributs sont donc les suivants :
 
 \begin{itemize}
-  \item \verb+WeightsLSTM* weights+ l'objet poids qui sera utilisé par la cellule pour calculer les sorties de chaque noeud ;
-  \item \verb+Eigen::VectorXd input+ vecteur des entrées de la cellule à l'instant $t$ ;
-  \item \verb+Eigen::VectorXd previous\_output+ vecteur des sorties de la cellule à l'instant $t-1$ ;
-  \item \verb+Eigen::VectorXd previous\_cell\_state+ mémoire de la cellule à l'instant $t-1$ ;
-  \item \verb+Eigen::VectorXd input\_gate\_out+ sortie du noeud input\_gate à l'instant $t$ ;
-  \item \verb+Eigen::VectorXd input\_block\_out+ sortie du noeud input\_block à l'instant $t$ ;
-  \item \verb+Eigen::VectorXd output\_gate\_out+ sortie du noeud output\_gate à l'instant $t$ ;
-  \item \verb+Eigen::VectorXd cell\_state+ mémoire de la cellule à l'instant $t$ ;
+  \item \verb+WeightsLSTM* weights+ l'objet poids qui sera utilisé par la
+    cellule pour calculer les sorties de chaque noeud ;
+  \item \verb+Eigen::VectorXd input+ vecteur des entrées de la cellule à
+    l'instant $t$ ;
+  \item \verb+Eigen::VectorXd previous\_output+ vecteur des sorties de la
+    cellule à l'instant $t-1$ ;
+  \item \verb+Eigen::VectorXd previous\_cell\_state+ mémoire de la cellule
+    à l'instant $t-1$ ;
+  \item \verb+Eigen::VectorXd input\_gate\_out+ sortie du noeud input\_gate
+    à l'instant $t$ ;
+  \item \verb+Eigen::VectorXd input\_block\_out+ sortie du noeud input\_block
+    à l'instant $t$ ;
+  \item \verb+Eigen::VectorXd output\_gate\_out+ sortie du noeud output\_gate
+    à l'instant $t$ ;
+  \item \verb+Eigen::VectorXd cell\_state+ mémoire de la cellule à
+    l'instant $t$ ;
   \item \verb+Eigen::VectorXd cell\_out+ sortie de la cellule à l'instant $t$.
 \end{itemize}
 
@@ -235,6 +243,17 @@ la première.
 \bigskip
 
 Les attributs sont donc les suivants :
+
+\begin{itemize}
+  \item
+  \item \verb+WeightsLSTM* weights+ l'objet poids utilisé pour la création de
+    chaque cellule;
+  \item \verb+int input\_size+ la taille de l'entrée;
+  \item \verb+int output\_size+ la taille de la sortie ;
+  \item \verb+int layer\_size+ la taille des couches cachées ;
+  \item \verb+std::vector<Cell> cells+ le vecteur dans lequel sont stockées les
+    cellules crées pour chaque instant $t$ de la propagation.
+\end{itemize}
 
 \bigskip
 
