@@ -211,14 +211,11 @@ Les attributs sont donc les suivants :
 Les méthodes sont donc les suivantes :
 
 \begin{itemize}
-  \item \verb+compute( Eigen::VectorXd previous\_output,
-    Eigen::VectorXd previous\_memory, Eigen::VectorXd input)+ la methode qui
-    calcule la sortie de chaque noeud de la cellule, puis la sortie de la
+  \item \verb+compute( Eigen::VectorXd previous\_output, Eigen::VectorXd previous\_memory, Eigen::VectorXd input)+
+    la methode qui calcule la sortie de chaque noeud de la cellule, puis la sortie de la
     cellule. Renvoie \verb+<cell\_out, cell\_state>+ ;
-  \item \verb+compute\_gradient(
-    Eigen::VectorXd deltas, Eigen::VectorXd previous\_delta\_cell\_in,
-    Eigen::VectorXd previous\_delta\_cell\_state)+ la methode qui calcule le
-    gradient en entrée de la cellule en fonction des gradients en sortie.
+  \item \verb+compute\_gradient(Eigen::VectorXd deltas, Eigen::VectorXd previous\_delta\_cell\_in, Eigen::VectorXd previous\_delta\_cell\_state)+
+    la methode qui calcule le gradient en entrée de la cellule en fonction des gradients en sortie.
     Renvoie \verb+<delta\_input, delta\_cell\_state>+.
 \end{itemize}
 
