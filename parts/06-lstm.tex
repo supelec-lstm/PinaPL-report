@@ -211,12 +211,11 @@ Les attributs sont donc les suivants :
 Les méthodes sont donc les suivantes :
 
 \begin{itemize}
-  \item \verb+std::vector<Eigen::VectorXd> compute(
-    Eigen::VectorXd previous\_output, Eigen::VectorXd previous\_memory,
-    Eigen::VectorXd input)+ la methode qui calcule la sortie de chaque noeud
-    de la cellule, puis la sortie de la cellule. Renvoie \verb+<cell\_out,
-    cell\_state>+ ;
-  \item \verb+std::vector<Eigen::VectorXd> compute\_gradient(
+  \item \verb+compute( Eigen::VectorXd previous\_output,
+    Eigen::VectorXd previous\_memory, Eigen::VectorXd input)+ la methode qui
+    calcule la sortie de chaque noeud de la cellule, puis la sortie de la
+    cellule. Renvoie \verb+<cell\_out, cell\_state>+ ;
+  \item \verb+compute\_gradient(
     Eigen::VectorXd deltas, Eigen::VectorXd previous\_delta\_cell\_in,
     Eigen::VectorXd previous\_delta\_cell\_state)+ la methode qui calcule le
     gradient en entrée de la cellule en fonction des gradients en sortie.
@@ -233,11 +232,7 @@ vector.
 
 La propagation s'effectue cellule par cellule, chaque cellule prenant en entrée
 la sortie de la précédente à $t-1$ ainsi que l'entrée du réseau au temps
-$t$.
-
-\medskip
-
-De même, la rétropropagation s'effectue de la dernière cellule du vector à
+$t$. De même, la rétropropagation s'effectue de la dernière cellule du vector à
 la première.
 
 \bigskip
@@ -259,7 +254,14 @@ Les attributs sont donc les suivants :
 
 Les méthodes sont donc les suivantes :
 
-% TODO
+\begin{itemize}
+  \item \verb+propagate(std::vector<Eigen::VectorXd> inputs)+ crée à chaque
+    instant $t$ une nouvelle cellule et utilise sa methode \verb+compute+
+    pour calculer l'entrée de la suivante ;
+  \item \verb+backpropagate(std::vector<Eigen::VectorXd> expected\_outputs)+
+    rétropropage le gradient de la dernière cellule à la première en utilisant
+    la methode \verb+compute\_gradient+ de chaque cellule;
+\end{itemize}
 
 \section{Résultats}
 Ci-dessous des représentations de l'apprentissage au cours du temps du réseau sur des
