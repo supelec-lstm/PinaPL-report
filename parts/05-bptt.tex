@@ -67,12 +67,17 @@ les delta-poids).
 
 \section{Résultats}
 Ci-dessous des représentations de l'apprentissage au cours du temps du réseau sur des
-grammaires de Reber, simple et double. \\
+grammaires de Reber, simple et double.
+
+\smallskip
+
 En abscisse, le nombre de mots appris, en ordonnée le taux de réussite, testé à
 intervalles réguliers sur un échantillon de données de test choisies aléatoirement
-dans l'ensemble de test. \\
-La zone grise correspond à l'intervalle de confiance à $95\%$ sur le nombre d'exécutions
-précisé.\\
+dans l'ensemble de test. La zone grise correspond à l'intervalle de confiance à
+$95\%$ sur le nombre d'exécutions précisé.
+
+\smallskip
+
 Le réseau utilisé est composé d'une couche cachée de 30 neurones, avec un learning
 rate de $0.1$.
 
@@ -80,20 +85,56 @@ rate de $0.1$.
 Pour une grammaire de Reber simple, la réussite est déterminée par la prédiction
 correcte de toutes les transitions des mots testés.
 
+\medskip
+
+Les tests ont été réalisés en apprentissage stochastique (mot par mot) et en
+évaluant sur 10000 mots d'un ensemble de test. L'évaluation du taux de réussite
+est effectuée tous les 100 mots appris. La fonction de score sélectionée renvoie
+1 si toutes les transitions d'un mot ont été prédites, 0 si au moins une des
+lettre n'a pas été prédite. Le score total est ensuite rapporté au nombre de
+mots testés pour obtenir un taux de réussite.
+
+
 \begin{figure}[!ht]
 \begin{center}
-\includegraphics[width=0.8\textwidth]{images/results/bptt_simplereber_ls30_lr01.png}
+\includegraphics[width=0.7\textwidth]{images/results/bptt_simplereber_ls30_lr01.png}
 \caption{Apprentissage au cours du temps, BPTT sur grammaire de Reber simple}
 \end{center}
 \end{figure}
+
+\medskip
+
+On constate que le réseau apprend de manière certaine la grammaire simple : 
+le taux de réussite converge très rapidement vers 100\% et l'écart type
+se réduit pour ne plus valoir que 4\%.
+
+\medskip
+
+On peut donc conclure sur la capactité d'un réseau récurrent sur lequel on
+applique l'algorithme de mise à jour des poids BPTT à apprendre et prédire les
+transitions d'un gramaire de Reber simple ?
 
 \subsection{Grammaire de Reber symétrique}
 Pour une grammaire de Reber symétrique, réussite est déterminée par la prédiction
 correcte de la première et la dernière transition des mots.
 
+\medskip
+
+Les tests ont été réalisés dans les mêmes conditions que celles de la grammaire
+simple. A été évaluée la prediction du dernier carractère en fontion du premier
+de la séquence. Les caractères intermédiaires n'ont pas fait l'objet de cette
+expérience.
+
 \begin{figure}[!ht]
 \begin{center}
-\includegraphics[width=0.8\textwidth]{images/results/bptt_doublereber_ls30_lr01.png}
+\includegraphics[width=0.7\textwidth]{images/results/bptt_doublereber_ls30_lr01.png}
 \caption{Apprentissage au cours du temps, BPTT sur grammaire de Reber symétrique}
 \end{center}
 \end{figure}
+
+\medskip
+
+On constate que le réseau a plus de difficultés à prédire la dernière lettre de
+la séquence. En effet, la valeur finale se situe aux alentours de 75\% de
+réussite, l'éacrt type reste constant, et la convergence vers la valeur finale
+s'effectue entre 20000 et 50000 mots.
