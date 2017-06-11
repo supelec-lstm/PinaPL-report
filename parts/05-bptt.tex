@@ -94,7 +94,7 @@ Les attributs de la couche de neurones sont donc les suivants :
     les sorties de chaque noeud ;
   \item \verb+Eigen::VectorXd input+ vecteur des entrées de la couche à
     l'instant $t$ ;
-  \item \verb+Eigen::VectorXd previous\_output+ vecteur des sorties de la
+  \item \verb+Eigen::VectorXd previous_output+ vecteur des sorties de la
     couche à l'instant $t-1$ ;
   \item \verb+Eigen::VectorXd output+ sortie de la couche à l'instant $t$.
 \end{itemize}
@@ -102,17 +102,53 @@ Les attributs de la couche de neurones sont donc les suivants :
 Les méthodes sont donc les suivantes :
 
 \begin{itemize}
-  \item \verb+compute( Eigen::VectorXd previous\_output, Eigen::VectorXd input)+
+  \item \verb+compute( Eigen::VectorXd previous_output, Eigen::VectorXd input)+
     la methode qui calcule la sortie de la couche. Renvoie \verb+output+ ;
-  \item \verb+compute\_gradient(Eigen::VectorXd deltas, Eigen::VectorXd previous\_delta)+
+  \item \verb+compute_gradient(Eigen::VectorXd deltas, Eigen::VectorXd previous_delta)+
     la methode qui calcule le gradient en entrée de la couche en fonction du
-    gradient en sortie. Renvoie \verb+delta\_input+.
+    gradient en sortie. Renvoie \verb+delta_input+.
 \end{itemize}
 
 
 \subsubsection{Le réseau}
 
-% TODO : détailler fonction, attributs, methodes
+Le réseau est consitué d'un \verb+std::vector<neuronLayer>+. A chaque temps $t$
+une nouvelle couche du réseau est dépliée, crée puis stockée à l'index i du
+vector.
+
+\medskip
+
+La propagtion s'effectue couche par couche, chaque couche prenant en entrée la
+sortie de la précédente à $t-1$ ainsi que l'entrée du réseau au temps $t$.
+De même, la rétropropagation s'effectue couche par couche dans l'ordre de $t$
+décroissant en utilisant les méthodes de rétropropagation de chaque couche.
+
+\medskip
+
+Les attributs sont donc les suivants :
+
+\begin{itemize}
+  \item \verb+Weights* weights+ l'objet poids utilisé pour la création de
+    chaque cellule;
+  \item \verb+int input_size+ la taille de l'entrée;
+  \item \verb+int output_size+ la taille de la sortie ;
+  \item \verb+int layer_size+ la taille des couches cachées ;
+  \item \verb+std::vector<Cell> cells+ le vecteur dans lequel sont stockées les
+    cellules crées pour chaque instant $t$ de la propagation.
+\end{itemize}
+
+\bigskip
+
+Les méthodes sont donc les suivantes :
+
+\begin{itemize}
+  \item \verb+propagate(std::vector<Eigen::VectorXd> inputs)+ crée à chaque
+    instant $t$ une nouvelle couche et utilise sa methode \verb+compute+
+    pour calculer l'entrée de la suivante ;
+  \item \verb+backpropagate(std::vector<Eigen::VectorXd> expected_outputs)+
+    rétropropage le gradient de la dernière couche à la première en utilisant
+    la methode \verb+compute_gradient+ de chaque couche;
+\end{itemize}
 
 \section{Résultats}
 Ci-dessous des représentations de l'apprentissage au cours du temps du réseau sur des
@@ -161,7 +197,15 @@ se réduit pour ne plus valoir que 4\%.
 
 On peut donc conclure sur la capactité d'un réseau récurrent sur lequel on
 applique l'algorithme de mise à jour des poids BPTT à apprendre et prédire les
-transitions d'un gramaire de Reber simple ?
+transitions d'un gramaire de Reber simple. On obtient sensiblement les mêmes
+résultats qu'avec l'algorithme de mise à jour des poids RTRL, la seule
+différence est la vitesse de convergence un peu plus élevée.
+
+\medskip
+
+BPTT étant plus économe en espace, on peut aisément comprendre le choix
+d'utilisation de BPTT dans la pluspart des implémentations de réseaux neuronaux
+modernes.
 
 \subsection{Grammaire de Reber symétrique}
 Pour une grammaire de Reber symétrique, réussite est déterminée par la prédiction

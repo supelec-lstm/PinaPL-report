@@ -194,30 +194,30 @@ Les attributs sont donc les suivants :
     cellule pour calculer les sorties de chaque noeud ;
   \item \verb+Eigen::VectorXd input+ vecteur des entrées de la cellule à
     l'instant $t$ ;
-  \item \verb+Eigen::VectorXd previous\_output+ vecteur des sorties de la
+  \item \verb+Eigen::VectorXd previous_output+ vecteur des sorties de la
     cellule à l'instant $t-1$ ;
-  \item \verb+Eigen::VectorXd previous\_cell\_state+ mémoire de la cellule
+  \item \verb+Eigen::VectorXd previous_cell_state+ mémoire de la cellule
     à l'instant $t-1$ ;
-  \item \verb+Eigen::VectorXd input\_gate\_out+ sortie du noeud input\_gate
+  \item \verb+Eigen::VectorXd input_gate_out+ sortie du noeud input\_gate
     à l'instant $t$ ;
-  \item \verb+Eigen::VectorXd input\_block\_out+ sortie du noeud input\_block
+  \item \verb+Eigen::VectorXd input_block_out+ sortie du noeud input\_block
     à l'instant $t$ ;
-  \item \verb+Eigen::VectorXd output\_gate\_out+ sortie du noeud output\_gate
+  \item \verb+Eigen::VectorXd output_gate_out+ sortie du noeud output\_gate
     à l'instant $t$ ;
-  \item \verb+Eigen::VectorXd cell\_state+ mémoire de la cellule à
+  \item \verb+Eigen::VectorXd cell_state+ mémoire de la cellule à
     l'instant $t$ ;
-  \item \verb+Eigen::VectorXd cell\_out+ sortie de la cellule à l'instant $t$.
+  \item \verb+Eigen::VectorXd cell_out+ sortie de la cellule à l'instant $t$.
 \end{itemize}
 
 Les méthodes sont donc les suivantes :
 
 \begin{itemize}
-  \item \verb+compute( Eigen::VectorXd previous\_output, Eigen::VectorXd previous\_memory, Eigen::VectorXd input)+
+  \item \verb+compute( Eigen::VectorXd previous_output, Eigen::VectorXd previous_memory, Eigen::VectorXd input)+
     la methode qui calcule la sortie de chaque noeud de la cellule, puis la sortie de la
-    cellule. Renvoie \verb+<cell\_out, cell\_state>+ ;
-  \item \verb+compute\_gradient(Eigen::VectorXd deltas, Eigen::VectorXd previous\_delta\_cell\_in, Eigen::VectorXd previous\_delta\_cell\_state)+
+    cellule. Renvoie \verb+<cell_out, cell_state>+ ;
+  \item \verb+compute_gradient(Eigen::VectorXd deltas, Eigen::VectorXd previous_delta_cell_in, Eigen::VectorXd previous_delta_cell_state)+
     la methode qui calcule le gradient en entrée de la cellule en fonction des gradients en sortie.
-    Renvoie \verb+<delta\_input, delta\_cell\_state>+.
+    Renvoie \verb+<delta_input, delta_cell_state>+.
 \end{itemize}
 
 \subsubsection{Le réseau LSTM}
@@ -238,12 +238,11 @@ la première.
 Les attributs sont donc les suivants :
 
 \begin{itemize}
-  \item
   \item \verb+WeightsLSTM* weights+ l'objet poids utilisé pour la création de
     chaque cellule;
-  \item \verb+int input\_size+ la taille de l'entrée;
-  \item \verb+int output\_size+ la taille de la sortie ;
-  \item \verb+int layer\_size+ la taille des couches cachées ;
+  \item \verb+int input_size+ la taille de l'entrée;
+  \item \verb+int output_size+ la taille de la sortie ;
+  \item \verb+int layer_size+ la taille des couches cachées ;
   \item \verb+std::vector<Cell> cells+ le vecteur dans lequel sont stockées les
     cellules crées pour chaque instant $t$ de la propagation.
 \end{itemize}
@@ -258,7 +257,7 @@ Les méthodes sont donc les suivantes :
     pour calculer l'entrée de la suivante ;
   \item \verb+backpropagate(std::vector<Eigen::VectorXd> expected\_outputs)+
     rétropropage le gradient de la dernière cellule à la première en utilisant
-    la methode \verb+compute\_gradient+ de chaque cellule;
+    la methode \verb+compute_gradient+ de chaque cellule;
 \end{itemize}
 
 \section{Résultats}
