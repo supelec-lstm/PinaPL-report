@@ -367,14 +367,80 @@ la sortie au tour $i$.
 
 \section{Résultats}
 
-Après une longue période de débogage, nous avons obtenu des résultats
+Après une longue période de déboggage, nous avons obtenu des résultats
 satisfaisants.
 
-%TODO
 
 \subsection{Le XOR}
 
-%TODO
+Les premiers tests simples à réaliser avec un réseau neuronal sont les opérations logiques : en effet, de telles opérations prennent deux arguments en entrées $A$ et $B$, de valeur $0$ ou $1$, et donnent en sortie un valeur $S$ égale à $0$ ou à $1$. Cela se représente aisément avec un réseau de neurones, avec deux neurones d'entrée $A$ et $B$, et un neurone de sortie $S$ ; les neurones $A$ et $B$ sont tous deux liés deux neurones $C$ et $D$, qui forment une couche cachée, et ceux-ci sont reliés à $S$.
+
+Si les opérations logiques rudimentaires telles que $\text{FAUX}: (A, B) \mapsto 0$, $\text{A}: (A, B) \mapsto A$ ou $\text{OR}: (A, B) \mapsto (A ∨ B)$ ne posent aucun problème, le cas de $\text{XOR}: (A, B) \mapsto (A ∧ ¬B) ∨ (¬A ∧ B)$ est plus intéressant car il requiert l'utilisation d'une couche cachée ainsi que des biais.
+
+On réalise l'apprentissage à l'aide de 100000 entrée successives, où les valeurs de $A$ et $B$ sont choisies aléatoirement. La propagation, rétro-propagation sont effectués à chaque étape, en revanche la modification des poids est faite toute les 100 entrées. Le facteur d'apprentissage est fixé à 0.5 et les poids initialisés par des valeurs aléatoires entre $-1$ et $1$ ; on choisit la sigmoïde comme fonction d'activation pour chacun des neurones et un coût quadratique pour l'évaluation de l'erreur.
+
+Dans ces conditions, l'apprentissage est quasiment instantané. On réalise ensuite les quatre tests correspondant aux quatre cas possibles pour les valeurs de $(A, B) \in \{0, 1\}^2$, et on regarde la valeur obtenue et le coût final $c$ défini par
+
+\[ c = \sum_{(A, B) \in \{0, 1\}^2} (f(A, B) - (A \text{ XOR } B))^2 \]
+
+où $f(A, B)$ est le résultat donné par le réseau de neurones.
+
+On obtient généralement les résultats suivants, à $10^{-2}$ près:
+\[\begin{split}
+f(0, 0) &= 0.01 \\
+f(1, 0) &= 0.99 \\
+f(0, 1) &= 0.99 \\
+f(1, 1) &= 0.01 \\
+\text{et }c &= 0.02
+\end{split}\]
+
+On obtient donc des résultats très correct. Comme la fonction $f$ du réseau de neurone n'est pas définie exclusivement sur $\{0, 1\}^2$, mais sur $\mathbb{R}^2$, on peut visualiser l'évolution de $f(A, B)$ pour $(A, B) \in [-0.5, 1.5]^2$. Cela donne le graphique de la figure 2.2, où les valeur usuelles de $(A, B)$ sont indiquées par des points. On peut voir que le réseau à identifié une bande dans laquelle $f(A, B)$ vaut $1$, et vaut $0$ ailleurs.
+
+\begin{figure}[!ht]
+\begin{center}
+  \includegraphics[width=0.5\textwidth]{images/xor1.png}
+\end{center}
+\caption{Résultats corrects de XOR}
+\end{figure}
+
+Cependant, dans certains cas le réseau apprend mal le XOR. Cela se traduit par la convergence vers un minimum local de la fonction de coût dans lequel le réseau va se bloquer et dont il ne pourra sortir. De tels erreurs arrivent environ dans 1 cas sur 3, et sont dues à l'initialisation aléatoire des poids. Des résultats typiques d'un mauvais apprentissage sont présentés en figure 2.3 et 2.4.
+
+\begin{figure}[!ht]
+\begin{center}
+  \includegraphics[width=0.5\textwidth]{images/xor2.png}
+\end{center}
+\caption{Résultat erroné de XOR ($c = 0.83$)}
+\end{figure}
+
+\begin{figure}[!ht]
+\begin{center}
+  \includegraphics[width=0.5\textwidth]{images/xor3.png}
+\end{center}
+\caption{Autre résultat erroné de XOR ($c = 0.76$)}
+\end{figure}
+
+Enfin, on peut aussi introduire une erreur dont les données d'apprentissage. Cela revient à inverser la sortie souhaitée de temps en temps ; ainsi si on veut apprendre à l'étape $i$ que $0 \text{ XOR } 1$ vaut $1$, introduire une erreur reviendra à fixer à l'étape $i$ $A = 0$, $B = 1$ et $S = 0$ (au lieu de $S = 1$ donc). En faisant cela de façon régulière, on peut mesurer la résilience du réseau et sa capacité à apprendre malgré des données d'apprentissage de moindre qualité.
+
+Par exemple, en introduisant une erreur dans $20\%$ des cas, on obtient les résultats suivants:
+
+\[\begin{split}
+f(0, 0) &= 0.11 \\
+f(1, 0) &= 0.85 \\
+f(0, 1) &= 0.87 \\
+f(1, 1) &= 0.17 \\
+\text{et }c &= 0.28
+\end{split}\]
+
+\begin{figure}[!ht]
+\begin{center}
+  \includegraphics[width=0.5\textwidth]{images/xor4.png}
+\end{center}
+\caption{Résultat avec des données erronées}
+\end{figure}
+
+Malgré la proportion d'erreurs qui peut sembler importante, on voit que le réseau arrive tout de même à séparer le bruit des bonnes valeurs. Ainsi, il est encore capable de distinguer la bande où $f$ est égale à $1$, même si la différence entre la bande et le reste est amoindrie. Cependant, le taux de mauvais apprentissages est aussi plus important, et si la proportion d'erreur est trop grande le réseau n'est plus capable d'appendre correctement.
+
+%TODO : Résultats MNIST
 
 \subsection{Le MNIST}
 
@@ -417,8 +483,18 @@ pourcentage moyen d'erreur de XX \%. (Moyenne effectuée sur 100 réalisations).
 
 %TODO
 
-\subsubsection{Réseau sans couche cachées}
+\subsubsection{Réseau sans couche cachée}
 
 \subsection{Réseau avec 1 couche cachée}
+
+Ci-dessous la courbe d'apprentissage obtenue avec un réseau comportant une couche
+cachée de 10 neurones, et avec un learning rate de 0.3.
+
+\begin{figure}[!ht]
+\begin{center}
+  \includegraphics[width=0.7\textwidth]{images/mnist-256-10-03.png}
+\end{center}
+\caption{Courbe d'apprentissage du MNIST avec une couche cachée de 10 neurones}
+\end{figure}
 
 \subsubsection{Réseau avec deux couches cachées}
