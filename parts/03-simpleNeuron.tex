@@ -1,6 +1,6 @@
 % !TeX root = ../main.tex
 
-\chapter{Réseau neuronal simple}
+\chapter{Réseau de neurones simple}
 
 \section{Théorie}
 
@@ -11,11 +11,11 @@ littérature. Un perceptron est défini par :
 
 \begin{itemize}
   \item $n$ entrées $x_i$
-  \item $1$ sortie $y$
+  \item une sortie $y$
   \item $n$ poids $w_i$
-  \item $1$ biais $\theta$
-  \item $1$ fonction de composition $g : \mathbb{R}^n \to \mathbb{R}$
-  \item $1$ fonction d'activation $f : \mathbb{R} \to \mathbb{R}$
+  \item un biais $\theta$
+  \item une fonction de composition $g : \mathbb{R}^n \to \mathbb{R}$
+  \item une fonction d'activation $f : \mathbb{R} \to \mathbb{R}$
 \end{itemize}
 
 \begin{figure}[!ht]
@@ -28,15 +28,14 @@ littérature. Un perceptron est défini par :
 \vspace{\parskip}
 Sur sa construction, le perceptron est fortement inspiré sur le neurone humain,
 sans pour autant en être une représentation réaliste.
-Le perceptron détermine avec ses entrées si il "active" ou non la sortie, c'est
+Le perceptron détermine avec ses entrées s'il active ou non sa sortie, c'est
 à dire s'il relaie le signal. Pour cela il rassemble toutes les données des
 entrées $x_i$ à l'aide de la fonction de composition $g$. Le neurone ne donnant
-pas la même importance à chaque entrée, on les pondère préalablement par les
-poids notés $w_i$.
+pas la même importance à chaque entrée, on les pondère préalablement par des
+poids $w_i$.
 Finalement, on décide du signal de sortie à l'aide de la fonction d'activation
-$f$. De base, le seuil d'activation est souvent centré en $0$. Pour palier à ce
-problème, on prend également en entrée de la fonction d'activation un biais
-$\theta$.
+$f$. Le seuil d'activation est souvent centré en $0$, mais on peut le faire varier à
+l'aide d'un biais $\theta$ ajouté en entrée de la fonction d'activation.
 
 \medskip
 
@@ -45,7 +44,8 @@ En résumé, on a :
 
 \medskip
 
-Usuellement, la fonction d'activation est la somme :
+Usuellement, la fonction de composition est une simple somme pondérée,
+ce qui nous donne :
 \[y = f(\sum_{i=1}^n x_iw_i + \theta) \]
 
 \medskip
@@ -57,16 +57,20 @@ toujours $1$.
 
 Une réseau de neurones permet de créer des fonctions de bien plus grande
 complexité qu'un simple neurone, permettant de résoudre des problèmes
-jusqu'alors inaccessibles à la machine. Il permet par exemple de faire des
-classifications sur le MNIST. Le MNIST est un problème classique où l'on a des
-images représentant des chiffres manuscrits et pour lequel l'on doit déterminer
-le chiffre représenté. C'est un problème d'une extrême simplicité pour un être
+jusqu'alors inaccessibles à la machine. Il permet par exemple de résoudre le
+problème de classification ; par exemple, un problème classique est celui où l'on dispose
+d'images représentant des chiffres manuscrits et que l'on doit lire.
+La base MNIST, que l'on utilisera par la suite, propose plusieurs dizaines de milliers
+de telles images. Ce problème est d'une extrême simplicité pour un être
 humain, mais presque impossible à résoudre avec une programmation classique
-sans réseau neuronal. Ainsi, pour construire un réseau, chaque perceptron est
-mis en relation avec ses pairs (un perceptron prend en entrée les sorties
-d'autres perceptrons). On construit alors un graphe orienté dans lequel chaque
+sans réseau neuronal.
+
+Ainsi, pour construire un réseau, chaque perceptron est
+mis en relation avec ses pairs : un perceptron prend en entrée les sorties
+d'autres perceptrons. On construit alors un graphe orienté dans lequel chaque
 sommet est un perceptron. On se limitera dans un premier temps au cas d'un
-réseau acyclique.
+réseau acyclique, puis on étudiera les possibilités supplémentaires offertes par
+la présence de cycles bien placés.
 
 \bigskip
 
@@ -79,59 +83,71 @@ On peut définir plusieurs types de neurones dans un réseau :
 
 \bigskip
 
-Il faut donc autant de neurones d'entrée que de dimensions qu'a l'échantillon
+\begin{figure}[!ht]
+\begin{center}
+  \includegraphics[width=0.3\textwidth]{images/reseau_simple.png}
+\end{center}
+\caption{Réseau de neurones à une couche cachée}
+\end{figure}
+
+Ces neurones vont être placés sur des couches successives. Une couche est un ensemble de neurones de même type, tel qu'ils soient reliés à aux neurones de la couche suivante, mais pas entre eux. On définit alors une couche d'entrée, une ou plusieurs couches de neurones cachés, et une couche de neurones de sortie. Ainsi, chaque couche transmet ses calculs à la suivante jusqu'à arriver à la couche de sortie.
+
+\medskip
+
+Tout d'abord, il faut autant de neurones d'entrée que de dimensions qu'a l'échantillon
 que l'on veut soumettre au réseau. Par exemple dans le cadre du MNIST
 on veut en entrée une image de dimension $28 \times 28$, on place donc $784$
 neurones d'entrées. En pratique, les neurones d'entrée sont des neurones fictifs
-; ils sont présents pour faciliter la construction du réseau de neurone.
+; ils sont présents pour faciliter la construction du réseau de neurones.
 En effet, ils ne sont soumis à aucun apprentissage et leur sortie est la même
 que leur entrée. Nous ne les considérerons pas dans la théorie qui suit.
 
 \medskip
 
 Les neurones des couches cachées sont présents entre les neurones d'entrée et de
-sortie. Ils sont utiles uniquement pour le calcul de la sortie. Le nombre de
-couches et la taille des couches influent sur l'action du réseau. Un réseau à
-multiples couches cachées sera capable de traiter des problèmes beaucoup plus
-complexes qu'un réseau à simple couche cachée. Il est évident que cela augmente
+sortie. Ils sont utiles uniquement pour le calcul de résultats intermédiaires en vue de
+calculer la sortie. Le nombre de couches et la taille des couches influent sur l'action
+du réseau. Un réseau à multiples couches cachées sera capable de traiter des problèmes plus
+complexes qu'un réseau à une seule couche cachée. Il est évident que cela augmente
 néanmoins la complexité des calculs et le temps d'exécution.
 
 \medskip
 
 Les neurones de sortie sont ceux qui servent pour la classification de
-l'échantillon d'entrée. Si l'on souhaite classifier une entrée il faut le même
+l'échantillon d'entrée. Il doit y avoir le même
 nombre de neurones de sortie que de classes différentes possibles. Ainsi dans
-l'exemple du MNIST, le but est de déterminer un chiffre donné sur une image.
-Il y a donc $10$ possibilités (les 10 chiffres). Il y a donc $10$ neurones de
+l'exemple du MNIST, le but est de déterminer un chiffre donné par une image :
+il y a $10$ possibilités, une pour chaque chiffre. Il y a donc $10$ neurones de
 sortie.
 
 \medskip
 
-Par la suite, on appellera $\{x_i\}_{i \leq n}$ les entrées, $\{y_i\}_{i \leq m}$
- les sorties des neurones $\{y_i\}_{m+1-M \leq i \leq m}$ les sorties des
-neurones de sorties, $\{\sigma_i\}_{i \leq m}$ les fonctions d'activations et
+Par la suite, on appellera $\{x_i\}_{i \leq n}$ les $n$ entrées, $\{y_i\}_{i \leq m}$
+ les $m$ sorties de tous les neurones, $\{y_i\}_{m+1-M \leq i \leq m}$ les sorties des
+$M$ neurones de sorties, $\{\sigma_i\}_{i \leq m}$ les fonctions d'activations et
 $\{\theta_i\}_{i \leq m}$ les biais.
 
 \medskip
 
-On définit enfin $\{F_i\}_{i \leq m}$ tel que $j \in E_i$ si et seulement si la
+On définit enfin $\{F_i\}_{i \leq m}$ tel que $j \in F_i$ si et seulement si la
 sortie du neurone $j$ est reliée au neurone $i$. On peut ainsi numéroter les
 poids : $\{w_{ij}\}_{i \leq m, j \in F_i} $ le poids associé à l'entrée reliant
 le neurone $j$ au neurone $i$.
 
 \medskip
 
-D'après ce qui précède, on obtient $\forall i \in [1, m]$ :
+D'après ce qui précède, on peut écrire pour tout $i \in [1, m]$ :
 
 \[y_i = \sigma_i(\sum_{j \in F_i} y_jw_{ij} + \theta_i) \]
 
-\subsection{Les réseaux à couche}
+\subsection{Les réseaux en couches}
 
-Il existe un type de réseau simplifié très utilisé. On partitionne l'ensemble
-des neurones en $K$ ensembles. On chacun de ces ensembles une "couche". De plus,
-chaque neurone d'une couche a comme entrées l'ensemble (ou partie) des sorties
-des neurones de la couche précédente. On notera $\alpha^{(k)}_j$ l'élément $j$
-de la couche $k$ de $\alpha$. On notera également $N_k$ le nombre de neuroneq à
+Les réseaux en couches vus ci-dessus sont très utilisés, et nous allons établir
+les premiers résultats sur ces structures. On partitionne l'ensemble donc
+des neurones en $K$ ensembles, chacun décrivant une couche. De plus,
+chaque neurone d'une couche a comme entrées l'ensemble des sorties
+des neurones de la couche précédente. On notera $\alpha^{(k)}_j$ l'élément $\alpha$
+numéro $j$ de la couche $k$. On notera également $N_k$ le nombre de neurones à
 la couche $k$. On a donc pour tout $k > 1$ :
 
 \[y_i^{(k)} = \sigma_i^{(k)}(\sum_{j = 0}^{N_{k-1}} y_j^{(k-1)}w_{ij}^{(k)} + \theta_i^{(k)}) \]
@@ -142,6 +158,8 @@ ci-dessus avec une approche vectorielle :
 \[\overline{y^{(k)}} = w^{(k)} \times y^{(k-1)} + \theta^{(k)}\]
 \[y^{(k)} = \sigma^{(k)}(\overline{y^{(k)}}) \]
 
+où $\overline{y^{(k)}}$ est la somme pondérée des entrées.
+
 On peut montrer que tout réseau acyclique peut se ramener à un réseau à couches
 dont certains poids sont imposés comme nuls. Nous prenons donc l'hypothèse que
 le réseau est un réseau à $K$ couches, que la première couche est l'ensemble des
@@ -150,28 +168,29 @@ le réseau est un réseau à $K$ couches, que la première couche est l'ensemble
 
 \subsection{L'apprentissage}
 
-L'efficacité d'un réseau de neurones se mesure à la qualité de sa classification
-. Celle-ci dépend des poids qui sont attribués à chacune de ses entrées. Il faut
+L'efficacité d'un réseau de neurones se mesure à la qualité de sa classification. 
+Celle-ci dépend des poids qui sont attribués à chacune de ses entrées. Il faut
 donc déterminer la bonne combinaison de poids qui permettra au réseau de
 simuler la fonction voulue. Le nombre de poids présents dans un réseau augmente
 très rapidement et il devient complexe d'estimer cette bonne combinaison. Pour
-cela, on procède à une phase apprentissage : on utilise un échantillon de
-données dont on connaît le résultat pour construire un réseau avec les bon poids
-. On part ainsi d'un réseau avec des poids aléatoires, choisis dans un
+cela, on procède à une phase d'apprentissage : on utilise un échantillon de
+données dont on connaît le résultat pour construire un réseau avec les bons poids.
+On part ainsi d'un réseau avec des poids aléatoires, choisis dans un
 intervalle restreint et centré en zéro, et on les modifie en prenant en compte
 les erreurs entre les valeurs obtenues et les valeurs théoriques. Dans la suite,
-on s'intéressera à toute la démarche nécessaire pour arriver à cette
+on s'intéressera à toute la démarche nécessaire pour mettre en œuvre cette
 modification de poids.
 
 \medskip
 
 On notera $\{x_i\}_{i \leq n}$ et $\{Y_i\}_{i \leq M}$ les entrées et sorties
-des échantillons.
+des échantillons d'apprentissage.
 
 \medskip
 
 Pour déterminer les modifications à effectuer, on calcule la sortie du réseau de
- neurones à un échantillon de test donné et on mesure l'erreur. Pour cela,
+neurones avec un échantillon de test donné et on mesure l'erreur entre cette sortie
+et le résultat voulu. Pour cela,
 on choisira une fonction qui mesurera la différence entre le vecteur de sortie
 et le vecteur des sorties théoriques. Classiquement, on utilise la méthode des
 moindres carrés $E_m$ ou bien une fonction softmax à laquelle on rajoute une
@@ -186,8 +205,8 @@ On veut donc minimiser $E$ en modifiant les $w_{ij}$. Le problème ici est que
 l'on a une connaissance limitée de $E$ en fonction des $w_{ij}$ car on ne
 dispose des valeurs théoriques de sortie que pour un nombre fini de valeurs. Or
 les méthodes de minimisation de fonctions reposent souvent sur une connaissance
-continue de ce que l'on veut optimiser. La seule méthode viable est la méthode
-des gradients.
+continue de ce que l'on veut optimiser. La seule méthode viable est la méthode de la
+descente du gradient.
 
 \medskip
 
@@ -275,8 +294,8 @@ Donc :
 
 On obtient donc un algorithme d'apprentissage qui se fait en deux temps : tout
 d'abord le calcul du gradient qui se fait récursivement, puis le calcul de la
-différence de poids à appliquer. On remarque dans ce cas que l'on propage le
-gradient de la fin du réseau vers le début. C'est ceci qui donne le nom à la
+différence de poids à appliquer. Dans ce cas, on propage le gradient de la couche
+de sortie vers la couche d'entrée. C'est ceci qui donne le nom à la
 méthode employée : la rétropropagation.
 
 \section{L'implémentation}
@@ -331,7 +350,7 @@ sa rétropropagation.
 
 \subsection{Améliorations apportées}
 
-Nous avons ensuite amélioré le code pour diminuer le temps de calcul et clarfier
+Nous avons ensuite amélioré le code pour diminuer le temps de calcul et clarifier
 la structure. Les éléments à améliorer sont :
 \begin{itemize}
   \item La structure orientée objet
@@ -354,7 +373,7 @@ en effectuant les conversions suivantes :
    neuron.compositionFunction & on ne considère plus que la somme \\
    neuron.inputs/output & vecteur des entrées/sorties de tout le réseau \\
    neuron.bias & vecteur des biais de chaque neurone du réseau \\
-   dérivée de la fonction de composition & vaut 1
+   dérivée de la fonction de composition & égale à $1$
 \end{tabular}
 
 \medskip
@@ -440,13 +459,12 @@ f(1, 1) &= 0.17 \\
 
 Malgré la proportion d'erreurs qui peut sembler importante, on voit que le réseau arrive tout de même à séparer le bruit des bonnes valeurs. Ainsi, il est encore capable de distinguer la bande où $f$ est égale à $1$, même si la différence entre la bande et le reste est amoindrie. Cependant, le taux de mauvais apprentissages est aussi plus important, et si la proportion d'erreur est trop grande le réseau n'est plus capable d'appendre correctement.
 
-%TODO : Résultats MNIST
 
 \subsection{Le MNIST}
 
 Les données du problème du MNIST sont réparties en deux fichiers :
 \begin{itemize}
-    \item Le set d'apprentissage qui contient 60000 entrées (images de 784 pixels
+    \item Le set d'apprentissage qui contient 60000 entrées (images de $28 \times 28$ pixels
           des chiffres manuscrits suivis des données des chiffres représentés)
     \item Le set de test qui contient 10000 entrées (différentes de celle du set
           d'apprentissage)
@@ -466,7 +484,7 @@ prenant la sortie du réseau avec la valeur maximale.
 
 \subsubsection{Le classificateur linéaire}
 
-En créant un réseau neuronal sans bias ni couche cachées on obtient un
+En créant un réseau neuronal sans biais ni couche cachées on obtient un
 classificateur linéaire. Les 10 neurones de sortie sont reliés chacun aux 784
 neurones d'entrées. Les poids sont initialisés aléatoirement entre -1 et 1 selon
  une loi uniforme. La fonction d'activation est une siogmoïde, la composition
@@ -496,4 +514,4 @@ cachée de 10 neurones, et avec un learning rate de 0.3.
 \subsubsection{Réseau avec deux couches cachées}
 
 Pour un réseau comportant deux couches cachées de 300 neurones, on atteint un taux
-de réussite sur 100 runs de 94.66\% en moyenne avec un écart-type de 0.25\%.
+de réussite sur 100 itérations successives de 94.66\% en moyenne avec un écart-type de 0.25\%.
